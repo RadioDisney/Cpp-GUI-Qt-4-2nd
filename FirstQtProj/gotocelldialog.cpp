@@ -1,3 +1,4 @@
+#include <QPushButton>
 #include "gotocelldialog.h"
 #include "ui_gotocelldialog.h"
 
@@ -7,11 +8,13 @@ GoToCellDialog::GoToCellDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
     QRegExp regExp("[A-za-z][1-9][0-9]{0,2}");
     ui->lineEdit->setValidator (new QRegExpValidator(regExp, this));
 
-    connect(ui->okButton, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 GoToCellDialog::~GoToCellDialog()
@@ -21,5 +24,5 @@ GoToCellDialog::~GoToCellDialog()
 
 void GoToCellDialog::on_lineEdit_textChanged()
 {
-    ui->okButton->setEnabled(ui->lineEdit->hasAcceptableInput());
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ui->lineEdit->hasAcceptableInput());
 }
