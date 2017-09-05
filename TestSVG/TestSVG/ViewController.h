@@ -17,8 +17,10 @@
     int m,n;    // 小节、音符
     NSString *docDir;
     
-    NSString *originalColor;
-    NSString *markColor;
+    NSString *originalNoteColor;
+    NSString *originalMeasureColor;
+    NSString *markNoteColor;
+    NSString *markMeasureColor;
     
     NSTimer *timer;
 }

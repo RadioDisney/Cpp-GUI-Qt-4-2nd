@@ -18,8 +18,10 @@
     [super viewDidLoad];
     m = 1;
     n = 1;
-    markColor = @"#bbc27b";
-    originalColor = @"#000000";
+    markNoteColor = @"#0395da";
+    markMeasureColor = @"#fbe7bf";
+    originalNoteColor = @"#000000";
+    originalMeasureColor = @"#ffffff";
     
     webView = [[WKWebView alloc]init];
     [self.view addSubview:webView];
@@ -53,16 +55,34 @@
 
 - (void) show
 {
-
-    if (last_n != n)
+    if (n==1)
     {
-        NSString *jsCode = [NSString stringWithFormat:@"changeNoteColor (%d, %d, '%@')", last_m, last_n, originalColor];
+
+                NSString *jsCode = [NSString stringWithFormat:@"changeMeasureColor (%d, '%@')", m, markMeasureColor];
         [webView evaluateJavaScript:jsCode completionHandler:^(id _Nullable response, NSError* _Nullable error) {
             NSLog(@"%@|%@", response, error);}];
     }
-    NSString *jsCode = [NSString stringWithFormat:@"changeNoteColor (%d, %d, '%@')", m, n, markColor];
+    
+    NSString *jsCode = [NSString stringWithFormat:@"changeNoteColor (%d, %d, '%@')", m, n, markNoteColor];
     [webView evaluateJavaScript:jsCode completionHandler:^(id _Nullable response, NSError* _Nullable error) {
         NSLog(@"%@|%@", response, error);}];
+    
+    if (last_n != n)
+    {
+        NSString *jsCode = [NSString stringWithFormat:@"changeNoteColor (%d, %d, '%@')", last_m, last_n, originalNoteColor];
+        [webView evaluateJavaScript:jsCode completionHandler:^(id _Nullable response, NSError* _Nullable error) {
+            NSLog(@"%@|%@", response, error);}];
+    }
+    
+    if (n==1)
+    {
+        if (last_m != m)
+        {
+            NSString *jsCode = [NSString stringWithFormat:@"changeMeasureColor (%d, '%@')", last_m, originalMeasureColor];
+            [webView evaluateJavaScript:jsCode completionHandler:^(id _Nullable response, NSError* _Nullable error) {
+                NSLog(@"%@|%@", response, error);}];
+        }
+    }
 
     last_m = m;
     last_n = n;
@@ -94,6 +114,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 @end
