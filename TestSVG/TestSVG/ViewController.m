@@ -38,9 +38,8 @@
     NSURL *fileURL = [NSURL fileURLWithPath:htmlPath];
     NSURL *baseURL = [NSURL fileURLWithPath:docDir];
     [webView loadFileURL:fileURL allowingReadAccessToURL:baseURL];
+    [webView.configuration.userContentController addScriptMessageHandler:self name:@"onClick"];
     
-//    NSError *error;
-//    [webView loadHTMLString:[NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error] baseURL:baseURL];
     
     [webView setFrame:self.view.bounds];
 
@@ -57,8 +56,7 @@
 {
     if (n==1)
     {
-
-                NSString *jsCode = [NSString stringWithFormat:@"changeMeasureColor (%d, '%@')", m, markMeasureColor];
+        NSString *jsCode = [NSString stringWithFormat:@"changeMeasureColor (%d, '%@')", m, markMeasureColor];
         [webView evaluateJavaScript:jsCode completionHandler:^(id _Nullable response, NSError* _Nullable error) {
             NSLog(@"%@|%@", response, error);}];
     }
@@ -102,6 +100,16 @@
     else
     {
         n++;
+    }
+}
+
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
+{
+    NSLog(@"%@", message.name);
+
+    if ([message.name isEqualToString:@"onClick"])
+    {
+        message.body;
     }
 }
 

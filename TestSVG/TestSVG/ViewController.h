@@ -10,7 +10,7 @@
 #import <WebKit/WebKit.h>
 
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 {
     @public WKWebView *webView;
     int last_m, last_n; // 记录上一次的小节、音符序号

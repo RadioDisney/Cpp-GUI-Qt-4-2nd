@@ -1,4 +1,4 @@
-function onClick(e)
+var onClickMeasure = function (e)
 {
     for(var key in e.path)
     {
@@ -7,9 +7,13 @@ function onClick(e)
             && e.path[key].id.indexOf("M_")!=-1)
         {
             var m = e.path[key].id.substring(2);
+            window.webkit.messageHandlers.onClick.postMessage(m);
+            break;
         }
     }
 }
+
+document.body.addEventListener('click', onClickMeasure);
 
 function changeNoteColor(measure, note, color)
 {
@@ -29,6 +33,7 @@ function changeMeasureColor(measure, color)
     var item = document.getElementById ("M_" + measure);
     item.children[0].setAttribute("fill", color);
     changeMeasureFretBgColor(measure, color);
+    window.webkit.messageHandlers.onClick.postMessage("73");
 }
 
 function changeMeasureFretBgColor(measure, color)
