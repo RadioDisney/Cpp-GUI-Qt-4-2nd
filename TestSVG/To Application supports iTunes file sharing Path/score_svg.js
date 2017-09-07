@@ -1,3 +1,36 @@
+(function () {
+    var PopuMusic = function () {
+        this.root_element = document.querySelector("svg");
+        this.root_element.onclick = this.root_element_onclick.bind(this);
+
+        this.out_message = document.querySelector("#outmessage");
+    }
+
+    PopuMusic.prototype = {
+        root_element_onclick: function (e) {
+            this.out_message.innerText = e.target;
+        },
+
+        changeNoteColor: function(measure, note, color) {
+            // var items = document.body.querySelectorAll("#mn" + measure + "_" + note);
+            for (var i = 1; ;i++)
+            {
+                var item = document.getElementById ("MNE_" + measure + "_" + note + "_" + i);
+                if (item == undefined)
+                    break;
+                else if (item.getAttribute("fill") != "#fbe7bf")
+                    item.setAttribute("fill", color);
+            }
+        }
+
+    }
+
+
+    var pm = new PopuMusic();
+
+    window.popuMusic = pm;
+})()
+
 var onClickMeasure = function (e)
 {
     for(var key in e.path)
