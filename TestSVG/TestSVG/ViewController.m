@@ -84,8 +84,14 @@
 
     last_m = m;
     last_n = n;
-
-    if (n == 4)
+    
+    if (is_clicked)
+    {
+        is_clicked = false;
+        m = click_m;
+        n = 1;
+    }
+    else if (n == 4)
     {
         n = 1;
         if (m == 8)
@@ -109,7 +115,9 @@
 
     if ([message.name isEqualToString:@"onClick"])
     {
-        message.body;
+        NSString *measureString = [NSString stringWithFormat:@"%@", message.body];
+        click_m = [measureString intValue];
+        is_clicked = true;
     }
 }
 

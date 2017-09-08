@@ -1,14 +1,41 @@
 (function () {
+    "use strict";
+
     var PopuMusic = function () {
         this.root_element = document.querySelector("svg");
         this.root_element.onclick = this.root_element_onclick.bind(this);
 
         this.out_message = document.querySelector("#outmessage");
-    }
+
+        this.a = 1;
+        this.b = 2;
+    };
 
     PopuMusic.prototype = {
+        color1: "#ff0000",
+
+        color2: "rgba(0,0,255,0.5)",
+
         root_element_onclick: function (e) {
-            this.out_message.innerText = e.target;
+            for(var item = e.target;;)
+            {
+                if (item == undefined)
+                {
+                    break;
+                }
+                else if (item.id != undefined
+                    && item.id.indexOf("M_")!=-1)
+                {
+                    var m = item.id.substring(2);
+                    this.out_message.innerText += '['+m+']';
+                    window.webkit.messageHandlers.onClick.postMessage(m);
+                    break;
+                }
+                else
+                {
+                    item = item.parentElement;
+                }
+            }
         },
 
         changeNoteColor: function(measure, note, color) {
@@ -21,15 +48,17 @@
                 else if (item.getAttribute("fill") != "#fbe7bf")
                     item.setAttribute("fill", color);
             }
+
+            return 1;
         }
 
-    }
+    };
 
 
     var pm = new PopuMusic();
 
     window.popuMusic = pm;
-})()
+})();
 
 var onClickMeasure = function (e)
 {
@@ -44,9 +73,7 @@ var onClickMeasure = function (e)
             break;
         }
     }
-}
-
-document.body.addEventListener('click', onClickMeasure);
+};
 
 function changeNoteColor(measure, note, color)
 {
@@ -66,7 +93,6 @@ function changeMeasureColor(measure, color)
     var item = document.getElementById ("M_" + measure);
     item.children[0].setAttribute("fill", color);
     changeMeasureFretBgColor(measure, color);
-    window.webkit.messageHandlers.onClick.postMessage("73");
 }
 
 function changeMeasureFretBgColor(measure, color)

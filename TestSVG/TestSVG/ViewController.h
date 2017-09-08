@@ -15,6 +15,8 @@
     @public WKWebView *webView;
     int last_m, last_n; // 记录上一次的小节、音符序号
     int m,n;    // 小节、音符
+    int click_m;
+    Boolean is_clicked;
     NSString *docDir;
     
     NSString *originalNoteColor;
