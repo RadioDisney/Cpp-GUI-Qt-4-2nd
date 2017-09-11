@@ -45,6 +45,21 @@
 
     timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(show) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    
+    [self playMidi];
+}
+
+- (void)playMidi
+{
+    NSString *midiPath = [NSString stringWithFormat:@"%@/%@", docDir,  @"song.mid"];
+    NSURL *midiUrl = [NSURL fileURLWithPath:midiPath];
+    MusicPlayer player = NULL;
+    NewMusicPlayer(&player);
+    MusicSequence sequence = NULL;
+    NewMusicSequence(&sequence);
+    MusicSequenceFileLoad(sequence, (__bridge CFURLRef)midiUrl, kMusicSequenceFile_MIDIType, kMusicSequenceLoadSMF_ChannelsToTracks);
+    MusicPlayerSetSequence(player, sequence);
+    MusicPlayerStart(player);
 }
 
 - (IBAction)OnTouchUp:(id)sender
